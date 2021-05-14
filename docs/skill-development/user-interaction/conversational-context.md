@@ -154,7 +154,7 @@ class TeaSkill(MycroftSkill):
             self.speak('Heres your Tea with Honey')
 ```
 
-When starting up only the `TeaIntent` will be available. When that has been triggered and _MilkContext_ is added the `MilkYesIntent` and `MilkNoIntent` are available since the _MilkContext_ is set. when a _yes_ or _no_ is received the _MilkContext_ is removed and can't be accessed. In it's place the _HoneyContext_ is added making the `YesHoneyIntent` and `NoHoneyIntent` available.
+When starting up only the `TeaIntent` will be available. When that has been triggered and _MilkContext_ is added the `MilkYesIntent` and `MilkNoIntent` are available since the _MilkContext_ is set. when a _yes_ or _no_ is received the _MilkContext_ is removed and can't be accessed. In its place the _HoneyContext_ is added making the `YesHoneyIntent` and `NoHoneyIntent` available.
 
 You can find an example [Tea Skill using conversational context on Github](https://github.com/krisgesling/tea-skill).
 
