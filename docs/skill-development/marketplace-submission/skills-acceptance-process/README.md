@@ -30,7 +30,7 @@ Before submitting your Skill we assume you have:
 
 * Create your README.md using the [Skill Meta Editor](https://mycroft.ai/skill-meta-editor). We also have some [additional tips for a great README](../skill-readme-md.md).
 * Personally tested your Skills functionality to ensure it is working as expected. For a detailed testing overview, see stage three below.
-* It is also a great idea to post a link to you Skill in the [Skill Feedback category of the Forums](https://community.mycroft.ai/c/skill-feedback) to let others test your Skill on different platforms. This is encouraged but not required to submit your Skill to the Marketplace.
+* It is also a great idea to post a link to your Skill in the [Skill Feedback category of the Forums](https://community.mycroft.ai/c/skill-feedback) to let others test your Skill on different platforms. This is encouraged but not required to submit your Skill to the Marketplace.
 * Ensure any Python or other packages required to run your Skill are included in your requirements.txt or equivalent.
 * Run the [automated testing](../../voight-kampff/automatic-testing.md) on your own machine using the command:
 
