@@ -30,7 +30,7 @@ There are multiple ways to install Mycroft for Linux.
 
 ### Installing via git clone
 
-The simplest way to install Mycroft for Linux is to clone the `mycroft-core` repo to your system and run a shell script, which will install all dependencies, and [Mycroft components](http://mycroft.ai/documentation/mycroft-software-hardware/).
+The simplest way to install Mycroft for Linux is to clone the `mycroft-core` repo to your system and using Pip, which will install all dependencies, and [Mycroft components](http://mycroft.ai/documentation/mycroft-software-hardware/).
 
 The `mycroft-core` repo is at [https://github.com/MycroftAI/mycroft-core](https://github.com/MycroftAI/mycroft-core).
 
@@ -40,60 +40,48 @@ The instructions below will install Mycroft in your HOME directory.
 cd ~/
 git clone https://github.com/MycroftAI/mycroft-core.git
 cd mycroft-core
-bash dev_setup.sh
+pip install .
 ```
-
-The `dev_setup.sh` script identifies, installs and configures dependencies that Mycroft needs to run.
-
-The script will also install and configure [virtualenv](https://virtualenv.pypa.io/en/stable/). `virtualenv` is a tool to create isolated Python environments. It is a way to isolate an application - in this case Mycroft - from other applications. It helps to better manage both dependencies and security.
-
-If you are running a Linux distribution other than Ubuntu, Debian, Arch or Fedora, you may need to manually install packages as instructed by `dev_setup.sh`.
 
 ## Running Mycroft for Linux
 
 The Mycroft for Linux installation includes two scripts that you use to control Mycroft services.
 
-### start-mycroft.sh
+### mycroft-start
 
-`start-mycroft.sh` is used to start one, or all, Mycroft services. This script uses the `virtualenv` created by `dev_setup.sh`.
+`mycroft-start` is used to start one, or all, Mycroft services.
 
-The usage of `start-mycroft.sh` is:
+The usage of `mycroft-start` is:
 
 ```text
-usage: start-mycroft.sh [command] [params]
+usage: mycroft-start [COMMAND] [restart] [params]
 
 Services:
   all                      runs core services: bus, audio, skills, voice
   debug                    runs core services, then starts the CLI
-
-Services:
   audio                    the audio playback service
   bus                      the messagebus service
   skills                   the skill service
   voice                    voice capture service
-  wifi                     wifi setup service
   enclosure                mark_1 enclosure service
 
 Tools:
   cli                      the Command Line Interface
-  unittest                 run mycroft-core unit tests
 
-Utils:
-  skill_container <skill>  container for running a single skill
-  audiotest                attempt simple audio validation
-  audioaccuracytest        more complex audio validation
-  sdkdoc                   generate sdk documentation
+Options:
+  restart                  (optional) Force the service to restart if running
 
 Examples:
-  start-mycroft.sh all
-  start-mycroft.sh cli
-  start-mycroft.sh unittest
+  mycroft-start all
+  mycroft-start all restart
+  mycroft-start bus
+  mycroft-start voice
 ```
 
 #### To start all Mycroft services at once
 
 ```text
-$ ./start-mycroft.sh all
+$ mycroft-start all
 Starting all mycroft-core services
 Initializing...
 Starting background service bus
@@ -107,7 +95,7 @@ Starting background service voice
 Services can also be started individually.
 
 ```text
-$ ./start-mycroft.sh audio
+$ mycroft-start audio
 Initializing...
 Starting background service audio
 ```
@@ -115,7 +103,7 @@ Starting background service audio
 ### Stopping Mycroft services
 
 ```text
-$ ./stop-mycroft.sh
+$ mycroft-stop
 Stopping all mycroft-core services
 ```
 
@@ -132,9 +120,8 @@ After=pulseaudio.service
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/
-ExecStart=/home/pi/mycroft-core/bin/mycroft-start all
-ExecStop=/home/pi/mycroft-core/bin/mycroft-stop
+ExecStart=mycroft-start all
+ExecStop=mycroft-stop
 Type=forking
 Restart=no
 
@@ -196,16 +183,15 @@ Keeping your `mycroft-core` installation up to date is simple.
 2. Type `git stash` - this preserves your Mycroft configuration. `git` may prompt you to [set up an identity](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).
 3. Type `git pull` to get the latest code. By default, using a `git` installation will bring down the `dev` branch of the repo. If you want to pull down another branch - for instance to test it - use `git pull origin BRANCH_NAME`.
 4. Type `git stash pop` to return the configuration that was stashed with `git stash`
-5. Type `./update_dev.sh` to update your `virtualenv` - it's a good idea to do this if you update your `mycroft-core` installation.
-6. Type `./start-mycroft.sh all` to restart the services
+5. Type `pip install .` to update your `virtualenv` - it's a good idea to do this if you update your `mycroft-core` installation.
+6. Type `mycroft-start all` to restart the services
 
 ## Removing Mycroft for Linux from your system
 
-If you have installed `mycroft-core` using the `git-clone` method, you can remove all files and directories that have been created by Mycroft using the `--clean` flag:
+If you have installed `mycroft-core` using the `git-clone` method, you can remove the installation with Pip:
 
 ```bash
-cd ~/mycroft-core # or the path to your mycroft-core installation
-./dev_setup --clean
+pip uninstall mycroft-core
 ```
 
 This does not remove the cloned `mycroft-core` project directory. If cloned directly into the home directory, this can be removed with:
@@ -218,7 +204,7 @@ rm -rf ~/mycroft-core
 **Warning: always be very careful when running `rm -rf` commands. Running this command on the wrong directory can delete your entire filesystem. Run `rm --help` for more details.**
 {% endhint %}
 
-Alternatively you can manually remove these files using the following commands:
+Lastly you can manually remove files created by Mycroft using the following commands:
 
 ```bash
 sudo rm -rf /var/log/mycroft # Log files
